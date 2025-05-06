@@ -194,6 +194,14 @@ while running:
 
             all_sprites.add(floor)
             all_sprites.add(player)
+        if player.rect.collidepoint(object.rect.bottomleft) or player.rect.collidepoint(object.rect.bottomright):
+            all_sprites = pygame.sprite.Group()
+            objects = pygame.sprite.Group()
+
+            parse_level(level)
+
+            all_sprites.add(floor)
+            all_sprites.add(player)
         if player.rect.colliderect(object.rect) and object.standable:
             player.speedy = object.rect.y - player.rect.y - player.rect.size[1] + 1
             player.update()
