@@ -16,11 +16,25 @@ def port():
         start[0] = 0
         for objecta in line:
             start[0] += 50
-            if objecta != "0" or objecta != 0:
+            if int(objecta) != 0:
                 level_list.append(
                     (int(objecta), start[0], start[1])
                 )
         start[1] += 50
     return level_list
 
-print(port())
+def paginate(items_per_page, what):
+    pages = []
+
+    cur_page = []
+
+    what.sort()
+    for file in enumerate(what):
+        if file[0] % items_per_page == 0:
+            if cur_page:
+                pages.append(cur_page)
+                cur_page = []
+        cur_page.append(file[1])
+    pages.append(cur_page)
+
+    return pages
