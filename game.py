@@ -96,7 +96,7 @@ class Spike(pygame.sprite.Sprite):
         self.killable = True
         self.standable = False
 
-        self.image = pygame.image.load("assets/1.png")
+        self.image = pygame.image.load("assets/blocks/1.png")
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -107,25 +107,10 @@ class Spike(pygame.sprite.Sprite):
     def update(self, *args, **kwargs):
         self.rect.x -= speed
 
-class Air(Block):
-    def __init__(self, x, y):
-        super().__init__(x, y, 50,50, "assets/0.png")
-        self.image = pygame.Surface([50, 50])
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.killable = True
-        self.standable = False
-
-    def draw(self, surface: pygame.Surface):
-        surface.blit(self.image, self.rect)
-
-    def update(self, *args, **kwargs):
-        self.rect.x -= speed
 class Classic(Block):
     def __init__(self, x, y):
-        super().__init__(x,y, 50, 50, "assets/2.png")
-        self.image = pygame.image.load("assets/2.png").convert_alpha()
+        super().__init__(x,y, 50, 50, "assets/blocks/2.png")
+        self.image = pygame.image.load("assets/blocks/2.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -139,7 +124,7 @@ class Classic(Block):
     def update(self, *args, **kwargs):
         self.rect.x -= speed
 
-player = Player(50, 10, 50)
+player = Player(50, 400, 50)
 floor = Object(0, 450, "white", 800, 500)
 
 
@@ -150,7 +135,6 @@ all_sprites.add(floor)
 all_sprites.add(player)
 
 object_list = {
-    "0": Air,
     "1": Spike,
     "2": Classic
 }
@@ -173,7 +157,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    window.fill("black")
+    window.fill("cyan")
     #render here
     keys = pygame.key.get_pressed()
 
@@ -187,6 +171,9 @@ while running:
 
     for object in objects:
         if player.rect.colliderect(object.rect) and object.killable:
+            player = Player(50, 400, 50)
+            floor = Object(0, 450, "white", 800, 500)
+
             all_sprites = pygame.sprite.Group()
             objects = pygame.sprite.Group()
 
@@ -195,6 +182,9 @@ while running:
             all_sprites.add(floor)
             all_sprites.add(player)
         if player.rect.collidepoint(object.rect.bottomleft) or player.rect.collidepoint(object.rect.bottomright):
+            player = Player(50, 400, 50)
+            floor = Object(0, 450, "white", 800, 500)
+
             all_sprites = pygame.sprite.Group()
             objects = pygame.sprite.Group()
 
